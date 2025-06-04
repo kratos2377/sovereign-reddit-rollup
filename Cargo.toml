@@ -2,7 +2,7 @@
 
 resolver = "2"
 
-members = ["crates/rollup", "crates/stf", "crates/example-module", "scripts/soak-test"]
+members = ["crates/rollup", "crates/stf", "crates/example-module", "scripts/soak-test", "crates/reddit"]
 
 [workspace.package]
 version = "0.3.0"
