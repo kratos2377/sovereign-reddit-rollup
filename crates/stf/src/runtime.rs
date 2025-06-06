@@ -73,6 +73,8 @@ pub struct Runtime<S: Spec> {
     pub prover_incentives: sov_prover_incentives::ProverIncentives<S>,
     /// The example module.
     pub example_module: example_module::ExampleModule<S>,
+    // Reddit module
+    pub reddit_module: reddit::Reddit<S>,
     /// The Chain state module.
     pub chain_state: sov_chain_state::ChainState<S>,
     /// The Blob storage module.

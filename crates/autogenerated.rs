@@ -1,4 +1,4 @@
-pub const CHAIN_HASH: [u8; 32] = [35, 63, 131, 249, 126, 123, 66, 100, 87, 141, 109, 130, 165, 206, 78, 228, 87, 62, 138, 176, 96, 249, 130, 68, 14, 45, 67, 154, 122, 127, 89, 251];
+pub const CHAIN_HASH: [u8; 32] = [251, 22, 76, 236, 23, 220, 155, 232, 36, 222, 208, 207, 202, 50, 96, 170, 89, 188, 183, 236, 70, 85, 173, 162, 0, 93, 245, 126, 254, 103, 74, 214];
 
 #[allow(dead_code)]
 pub const SCHEMA_JSON: &str = r#"{
@@ -98,7 +98,7 @@ pub const SCHEMA_JSON: &str = r#"{
             "display_name": "details",
             "silent": false,
             "value": {
-              "ByIndex": 78
+              "ByIndex": 83
             },
             "doc": ""
           }
@@ -210,7 +210,7 @@ pub const SCHEMA_JSON: &str = r#"{
             }
           },
           {
-            "name": "ChainState",
+            "name": "RedditModule",
             "discriminant": 7,
             "template": null,
             "value": {
@@ -218,19 +218,27 @@ pub const SCHEMA_JSON: &str = r#"{
             }
           },
           {
-            "name": "BlobStorage",
+            "name": "ChainState",
             "discriminant": 8,
             "template": null,
             "value": {
-              "ByIndex": 48
+              "ByIndex": 52
+            }
+          },
+          {
+            "name": "BlobStorage",
+            "discriminant": 9,
+            "template": null,
+            "value": {
+              "ByIndex": 53
             }
           },
           {
             "name": "Paymaster",
-            "discriminant": 9,
+            "discriminant": 10,
             "template": null,
             "value": {
-              "ByIndex": 49
+              "ByIndex": 54
             }
           }
         ],
@@ -1077,7 +1085,7 @@ pub const SCHEMA_JSON: &str = r#"{
         "fields": [
           {
             "value": {
-              "ByIndex": 13
+              "ByIndex": 48
             },
             "silent": false,
             "doc": ""
@@ -1086,28 +1094,166 @@ pub const SCHEMA_JSON: &str = r#"{
       }
     },
     {
-      "Tuple": {
-        "template": null,
-        "peekable": false,
-        "fields": [
+      "Enum": {
+        "type_name": "CallMessage",
+        "variants": [
           {
+            "name": "CreateUser",
+            "discriminant": 0,
+            "template": null,
             "value": {
-              "ByIndex": 13
-            },
-            "silent": false,
-            "doc": ""
-          }
-        ]
-      }
-    },
-    {
-      "Tuple": {
-        "template": null,
-        "peekable": false,
-        "fields": [
+              "ByIndex": 49
+            }
+          },
           {
+            "name": "CreateSubReddit",
+            "discriminant": 1,
+            "template": null,
             "value": {
               "ByIndex": 50
+            }
+          },
+          {
+            "name": "CreatePost",
+            "discriminant": 2,
+            "template": null,
+            "value": {
+              "ByIndex": 51
+            }
+          }
+        ],
+        "hide_tag": false
+      }
+    },
+    {
+      "Struct": {
+        "type_name": "__SovVirtualWallet_CallMessage_CreateUser",
+        "template": null,
+        "peekable": false,
+        "fields": [
+          {
+            "display_name": "username",
+            "silent": false,
+            "value": {
+              "Immediate": "String"
+            },
+            "doc": ""
+          }
+        ]
+      }
+    },
+    {
+      "Struct": {
+        "type_name": "__SovVirtualWallet_CallMessage_CreateSubReddit",
+        "template": null,
+        "peekable": false,
+        "fields": [
+          {
+            "display_name": "user_address",
+            "silent": false,
+            "value": {
+              "ByIndex": 19
+            },
+            "doc": ""
+          },
+          {
+            "display_name": "subname",
+            "silent": false,
+            "value": {
+              "Immediate": "String"
+            },
+            "doc": ""
+          },
+          {
+            "display_name": "description",
+            "silent": false,
+            "value": {
+              "Immediate": "String"
+            },
+            "doc": ""
+          }
+        ]
+      }
+    },
+    {
+      "Struct": {
+        "type_name": "__SovVirtualWallet_CallMessage_CreatePost",
+        "template": null,
+        "peekable": false,
+        "fields": [
+          {
+            "display_name": "title",
+            "silent": false,
+            "value": {
+              "Immediate": "String"
+            },
+            "doc": ""
+          },
+          {
+            "display_name": "flair",
+            "silent": false,
+            "value": {
+              "Immediate": "String"
+            },
+            "doc": ""
+          },
+          {
+            "display_name": "content",
+            "silent": false,
+            "value": {
+              "Immediate": "String"
+            },
+            "doc": ""
+          },
+          {
+            "display_name": "subaddress",
+            "silent": false,
+            "value": {
+              "ByIndex": 19
+            },
+            "doc": ""
+          }
+        ]
+      }
+    },
+    {
+      "Tuple": {
+        "template": null,
+        "peekable": false,
+        "fields": [
+          {
+            "value": {
+              "ByIndex": 13
+            },
+            "silent": false,
+            "doc": ""
+          }
+        ]
+      }
+    },
+    {
+      "Tuple": {
+        "template": null,
+        "peekable": false,
+        "fields": [
+          {
+            "value": {
+              "ByIndex": 13
+            },
+            "silent": false,
+            "doc": ""
+          }
+        ]
+      }
+    },
+    {
+      "Tuple": {
+        "template": null,
+        "peekable": false,
+        "fields": [
+          {
+            "value": {
+              "ByIndex": 55
             },
             "silent": false,
             "doc": ""
@@ -1124,7 +1270,7 @@ pub const SCHEMA_JSON: &str = r#"{
             "discriminant": 0,
             "template": null,
             "value": {
-              "ByIndex": 51
+              "ByIndex": 56
             }
           },
           {
@@ -1132,7 +1278,7 @@ pub const SCHEMA_JSON: &str = r#"{
             "discriminant": 1,
             "template": null,
             "value": {
-              "ByIndex": 67
+              "ByIndex": 72
             }
           },
           {
@@ -1140,7 +1286,7 @@ pub const SCHEMA_JSON: &str = r#"{
             "discriminant": 2,
             "template": null,
             "value": {
-              "ByIndex": 68
+              "ByIndex": 73
             }
           }
         ],
@@ -1157,7 +1303,7 @@ pub const SCHEMA_JSON: &str = r#"{
             "display_name": "policy",
             "silent": false,
             "value": {
-              "ByIndex": 52
+              "ByIndex": 57
             },
             "doc": ""
           }
@@ -1174,7 +1320,7 @@ pub const SCHEMA_JSON: &str = r#"{
             "display_name": "default_payee_policy",
             "silent": false,
             "value": {
-              "ByIndex": 53
+              "ByIndex": 58
             },
             "doc": ""
           },
@@ -1182,7 +1328,7 @@ pub const SCHEMA_JSON: &str = r#"{
             "display_name": "payees",
             "silent": false,
             "value": {
-              "ByIndex": 62
+              "ByIndex": 67
             },
             "doc": ""
           },
@@ -1198,7 +1344,7 @@ pub const SCHEMA_JSON: &str = r#"{
             "display_name": "authorized_sequencers",
             "silent": false,
             "value": {
-              "ByIndex": 64
+              "ByIndex": 69
             },
             "doc": ""
           }
@@ -1214,7 +1360,7 @@ pub const SCHEMA_JSON: &str = r#"{
             "discriminant": 0,
             "template": null,
             "value": {
-              "ByIndex": 54
+              "ByIndex": 59
             }
           },
           {
@@ -1245,7 +1391,7 @@ pub const SCHEMA_JSON: &str = r#"{
             "display_name": "gas_limit",
             "silent": false,
             "value": {
-              "ByIndex": 55
+              "ByIndex": 60
             },
             "doc": ""
           },
@@ -1253,7 +1399,7 @@ pub const SCHEMA_JSON: &str = r#"{
             "display_name": "max_gas_price",
             "silent": false,
             "value": {
-              "ByIndex": 58
+              "ByIndex": 63
             },
             "doc": ""
           },
@@ -1261,7 +1407,7 @@ pub const SCHEMA_JSON: &str = r#"{
             "display_name": "transaction_limit",
             "silent": false,
             "value": {
-              "ByIndex": 61
+              "ByIndex": 66
             },
             "doc": ""
           }
@@ -1271,7 +1417,7 @@ pub const SCHEMA_JSON: &str = r#"{
     {
       "Option": {
         "value": {
-          "ByIndex": 56
+          "ByIndex": 61
         }
       }
     },
@@ -1282,7 +1428,7 @@ pub const SCHEMA_JSON: &str = r#"{
         "fields": [
           {
             "value": {
-              "ByIndex": 57
+              "ByIndex": 62
             },
             "silent": false,
             "doc": ""
@@ -1306,7 +1452,7 @@ pub const SCHEMA_JSON: &str = r#"{
     {
       "Option": {
         "value": {
-          "ByIndex": 59
+          "ByIndex": 64
         }
       }
     },
@@ -1320,7 +1466,7 @@ pub const SCHEMA_JSON: &str = r#"{
             "display_name": "value",
             "silent": false,
             "value": {
-              "ByIndex": 60
+              "ByIndex": 65
             },
             "doc": ""
           }
@@ -1350,7 +1496,7 @@ pub const SCHEMA_JSON: &str = r#"{
     {
       "Vec": {
         "value": {
-          "ByIndex": 63
+          "ByIndex": 68
         }
       }
     },
@@ -1368,7 +1514,7 @@ pub const SCHEMA_JSON: &str = r#"{
           },
           {
             "value": {
-              "ByIndex": 53
+              "ByIndex": 58
             },
             "silent": false,
             "doc": ""
@@ -1391,7 +1537,7 @@ pub const SCHEMA_JSON: &str = r#"{
             "discriminant": 1,
             "template": null,
             "value": {
-              "ByIndex": 65
+              "ByIndex": 70
             }
           }
         ],
@@ -1405,7 +1551,7 @@ pub const SCHEMA_JSON: &str = r#"{
         "fields": [
           {
             "value": {
-              "ByIndex": 66
+              "ByIndex": 71
             },
             "silent": false,
             "doc": ""
@@ -1455,7 +1601,7 @@ pub const SCHEMA_JSON: &str = r#"{
             "display_name": "update",
             "silent": false,
             "value": {
-              "ByIndex": 69
+              "ByIndex": 74
             },
             "doc": ""
           }
@@ -1472,7 +1618,7 @@ pub const SCHEMA_JSON: &str = r#"{
             "display_name": "sequencer_update",
             "silent": false,
             "value": {
-              "ByIndex": 70
+              "ByIndex": 75
             },
             "doc": ""
           },
@@ -1480,7 +1626,7 @@ pub const SCHEMA_JSON: &str = r#"{
             "display_name": "updaters_to_add",
             "silent": false,
             "value": {
-              "ByIndex": 75
+              "ByIndex": 80
             },
             "doc": ""
           },
@@ -1488,7 +1634,7 @@ pub const SCHEMA_JSON: &str = r#"{
             "display_name": "updaters_to_remove",
             "silent": false,
             "value": {
-              "ByIndex": 75
+              "ByIndex": 80
             },
             "doc": ""
           },
@@ -1496,7 +1642,7 @@ pub const SCHEMA_JSON: &str = r#"{
             "display_name": "payee_policies_to_set",
             "silent": false,
             "value": {
-              "ByIndex": 76
+              "ByIndex": 81
             },
             "doc": ""
           },
@@ -1504,7 +1650,7 @@ pub const SCHEMA_JSON: &str = r#"{
             "display_name": "payee_policies_to_delete",
             "silent": false,
             "value": {
-              "ByIndex": 75
+              "ByIndex": 80
             },
             "doc": ""
           },
@@ -1512,7 +1658,7 @@ pub const SCHEMA_JSON: &str = r#"{
             "display_name": "default_policy",
             "silent": false,
             "value": {
-              "ByIndex": 77
+              "ByIndex": 82
             },
             "doc": ""
           }
@@ -1522,7 +1668,7 @@ pub const SCHEMA_JSON: &str = r#"{
     {
       "Option": {
         "value": {
-          "ByIndex": 71
+          "ByIndex": 76
         }
       }
     },
@@ -1541,7 +1687,7 @@ pub const SCHEMA_JSON: &str = r#"{
             "discriminant": 1,
             "template": null,
             "value": {
-              "ByIndex": 72
+              "ByIndex": 77
             }
           }
         ],
@@ -1555,7 +1701,7 @@ pub const SCHEMA_JSON: &str = r#"{
         "fields": [
           {
             "value": {
-              "ByIndex": 73
+              "ByIndex": 78
             },
             "silent": false,
             "doc": ""
@@ -1573,7 +1719,7 @@ pub const SCHEMA_JSON: &str = r#"{
             "display_name": "to_add",
             "silent": false,
             "value": {
-              "ByIndex": 74
+              "ByIndex": 79
             },
             "doc": ""
           },
@@ -1581,7 +1727,7 @@ pub const SCHEMA_JSON: &str = r#"{
             "display_name": "to_remove",
             "silent": false,
             "value": {
-              "ByIndex": 74
+              "ByIndex": 79
             },
             "doc": ""
           }
@@ -1591,7 +1737,7 @@ pub const SCHEMA_JSON: &str = r#"{
     {
       "Option": {
         "value": {
-          "ByIndex": 66
+          "ByIndex": 71
         }
       }
     },
@@ -1605,14 +1751,14 @@ pub const SCHEMA_JSON: &str = r#"{
     {
       "Option": {
         "value": {
-          "ByIndex": 62
+          "ByIndex": 67
         }
       }
     },
     {
       "Option": {
         "value": {
-          "ByIndex": 53
+          "ByIndex": 58
         }
       }
     },
@@ -1626,7 +1772,7 @@ pub const SCHEMA_JSON: &str = r#"{
             "display_name": "max_priority_fee_bips",
             "silent": false,
             "value": {
-              "ByIndex": 79
+              "ByIndex": 84
             },
             "doc": ""
           },
@@ -1642,7 +1788,7 @@ pub const SCHEMA_JSON: &str = r#"{
             "display_name": "gas_limit",
             "silent": false,
             "value": {
-              "ByIndex": 55
+              "ByIndex": 60
             },
             "doc": ""
           },
@@ -1713,7 +1859,7 @@ pub const SCHEMA_JSON: &str = r#"{
             "display_name": "details",
             "silent": false,
             "value": {
-              "ByIndex": 78
+              "ByIndex": 83
             },
             "doc": ""
           }
@@ -1723,7 +1869,7 @@ pub const SCHEMA_JSON: &str = r#"{
   ],
   "root_type_indices": [
     0,
-    80,
+    85,
     6,
     19
   ],
@@ -1865,6 +2011,9 @@ pub const SCHEMA_JSON: &str = r#"{
         },
         {
           "name": "example_module"
+        },
+        {
+          "name": "reddit_module"
         },
         {
           "name": "chain_state"
@@ -2172,6 +2321,63 @@ pub const SCHEMA_JSON: &str = r#"{
     {
       "name": "",
       "fields_or_variants": []
+    },
+    {
+      "name": "",
+      "fields_or_variants": []
+    },
+    {
+      "name": "CallMessage",
+      "fields_or_variants": [
+        {
+          "name": "create_user"
+        },
+        {
+          "name": "create_sub_reddit"
+        },
+        {
+          "name": "create_post"
+        }
+      ]
+    },
+    {
+      "name": "__SovVirtualWallet_CallMessage_CreateUser",
+      "fields_or_variants": [
+        {
+          "name": "username"
+        }
+      ]
+    },
+    {
+      "name": "__SovVirtualWallet_CallMessage_CreateSubReddit",
+      "fields_or_variants": [
+        {
+          "name": "user_address"
+        },
+        {
+          "name": "subname"
+        },
+        {
+          "name": "description"
+        }
+      ]
+    },
+    {
+      "name": "__SovVirtualWallet_CallMessage_CreatePost",
+      "fields_or_variants": [
+        {
+          "name": "title"
+        },
+        {
+          "name": "flair"
+        },
+        {
+          "name": "content"
+        },
+        {
+          "name": "subaddress"
+        }
+      ]
     },
     {
       "name": "",

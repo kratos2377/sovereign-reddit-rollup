@@ -17,3 +17,5 @@ runtime_call.json
 **/dist
 js/src/generated/
 docker/rollup/data
+/target
+/crates/rollup/rollup-starter-data/*
