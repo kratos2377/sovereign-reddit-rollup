@@ -1,56 +1,57 @@
-use crate::{address::{PostAddress, SubAddress, UserAddress}, utils::{get_post_address, get_sub_address, get_user_address}, Reddit};
-use sov_modules_api::{Context, WorkingSet};
-use sov_modules_macros::rpc_gen;
-use jsonrpsee::core::RpcResult;
+use crate::{utils::{get_post_address, get_sub_address, get_user_address}, Reddit};
+use sov_modules_api::{prelude::jsonrpsee::core::RpcResult, ApiStateAccessor, Context, Spec, WorkingSet};
+use sov_modules_api::macros::rpc_gen;
+use sov_modules_api::prelude::jsonrpsee;
+use sov_modules_api::Address;
 
 
 #[derive(Clone, Debug, Eq, PartialEq, serde::Deserialize, serde::Serialize)]
 #[serde(bound(
-    serialize = "UserAddress<C>: serde::Serialize",
-    deserialize = "UserAddress<C>: serde::Deserialize<'de>"
+    serialize = "S::Address: serde::Serialize",
+    deserialize = "S::Address: serde::Deserialize<'de>"
 ))]
 /// Response for `getCollection` method
-pub struct UserCollectionResponse<C: Context> {
+pub struct UserCollectionResponse<S: Spec> {
     pub username: String,
-    pub user_address: UserAddress<C>,
+    pub user_address: S::Address,
 }
 
 
 #[derive(Clone, Debug, Eq, PartialEq, serde::Deserialize, serde::Serialize)]
 #[serde(bound(
-    serialize = "UserAddress<C>: serde::Serialize",
-    deserialize = "UserAddress<C>: serde::Deserialize<'de>"
+    serialize = "S::Address: serde::Serialize",
+    deserialize = "S::Address: serde::Deserialize<'de>"
 ))]
 /// Response for `getCollectionAddress` method
-pub struct UserAddressResponse<C: Context> {
+pub struct UserAddressResponse<S: Spec> {
     /// Address of the collection
-    pub user_address: UserAddress<C>,
+    pub user_address: S::Address,
 }
 
 
 
 #[derive(Clone, Debug, Eq, PartialEq, serde::Deserialize, serde::Serialize)]
 #[serde(bound(
-    serialize = "SubAddress<C>: serde::Serialize",
-    deserialize = "SubAddress<C>: serde::Deserialize<'de>"
+    serialize = "S::Address: serde::Serialize",
+    deserialize = "S::Address: serde::Deserialize<'de>"
 ))]
-pub struct SubRedditCollectionResponse<C: Context> {
+pub struct SubRedditCollectionResponse<S: Spec> {
     pub subname: String,
     pub desription: String,
-    pub subaddress: SubAddress<C>,
-    pub mods: Vec<UserAddress<C>>
+    pub subaddress: S::Address,
+    pub mods: Vec<S::Address>
 }
 
 
 #[derive(Clone, Debug, Eq, PartialEq, serde::Deserialize, serde::Serialize)]
 #[serde(bound(
-    serialize = "SubAddress<C>: serde::Serialize",
-    deserialize = "SubAddress<C>: serde::Deserialize<'de>"
+    serialize = "S::Address: serde::Serialize",
+    deserialize = "S::Address: serde::Deserialize<'de>"
 ))]
 /// Response for `getCollectionAddress` method
-pub struct SubAddressResponse<C: Context> {
+pub struct SubAddressResponse<S: Spec> {
     /// Address of the collection
-    pub sub_address: SubAddress<C>,
+    pub sub_address: S::Address,
 }
 
 
@@ -58,13 +59,13 @@ pub struct SubAddressResponse<C: Context> {
 
 #[derive(Clone, Debug, Eq, PartialEq, serde::Deserialize, serde::Serialize)]
 #[serde(bound(
-    serialize = "PostAddress<C>: serde::Serialize",
-    deserialize = "PostAddress<C>: serde::Deserialize<'de>"
+    serialize = "S::Address: serde::Serialize",
+    deserialize = "S::Address: serde::Deserialize<'de>"
 ))]
-pub struct PostCollectionResponse<C: Context> {
-    pub user_address: UserAddress<C>,
-    pub sub_address: SubAddress<C>,
-    pub post_address: PostAddress<C>,
+pub struct PostCollectionResponse<S: Spec> {
+    pub user_address: S::Address,
+    pub sub_address: S::Address,
+    pub post_address: S::Address,
     pub post_title: String,
     pub content: String,
     pub flair: String,
@@ -75,32 +76,32 @@ pub struct PostCollectionResponse<C: Context> {
 
 #[derive(Clone, Debug, Eq, PartialEq, serde::Deserialize, serde::Serialize)]
 #[serde(bound(
-    serialize = "PostAddress<C>: serde::Serialize",
-    deserialize = "PostAddress<C>: serde::Deserialize<'de>"
+    serialize = "S::Address: serde::Serialize",
+    deserialize = "S::Address: serde::Deserialize<'de>"
 ))]
-pub struct PostAddressResponse<C: Context> {
+pub struct PostAddressResponse<S: Spec> {
     /// Address of the collection
-    pub sub_address: PostAddress<C>,
+    pub sub_address: S::Address,
 }
 
 
 
 #[rpc_gen(client, server, namespace = "reddit")]
-impl<C: Context> Reddit<C> {
+impl<S: Spec> Reddit<S> {
     #[rpc_method(name = "getUser")]
     /// Get the collection details
     pub fn get_user(
         &self,
-        user_address: UserAddress<C>,
-        working_set: &mut WorkingSet<C>,
-    ) -> RpcResult<UserCollectionResponse<C>> {
+        user_address: S::Address,
+        state: &mut ApiStateAccessor<S>,
+    ) -> RpcResult<UserCollectionResponse<S>> {
         let c = self
             .user_collections
-            .get(&user_address, working_set)
+            .get(&user_address, state)
             .unwrap();
 
         Ok(UserCollectionResponse {
-            username: c.get_username().to_string(),
+            username: c.unwrap().get_username().to_string(),
             user_address: user_address.clone(),
         })
     }
@@ -108,11 +109,11 @@ impl<C: Context> Reddit<C> {
     /// Get the collection address
     pub fn get_collection_address(
         &self,
-        user_add: UserAddress<C>,
+        user_add: S::Address,
         username: &str,
-        _working_set: &mut WorkingSet<C>,
-    ) -> RpcResult<UserAddressResponse<C>> {
-        let ca = get_user_address::<C>(username, user_add.as_ref());
+        state: &mut ApiStateAccessor<S>,
+    ) -> RpcResult<UserAddressResponse<S>> {
+        let ca = get_user_address::<S>(username, user_add.as_ref());
         Ok(UserAddressResponse {
             user_address: ca,
         })
@@ -125,13 +126,13 @@ impl<C: Context> Reddit<C> {
     #[rpc_method(name = "getSubreddit")]
     pub fn get_sub_reddit(
         &self,
-        sub_address: SubAddress<C>,
-        working_set: &mut WorkingSet<C>,
-    ) -> RpcResult<SubRedditCollectionResponse<C>> {
+        sub_address: S::Address,
+        state: &mut ApiStateAccessor<S>,
+    ) -> RpcResult<SubRedditCollectionResponse<S>> {
         let c = self
             .sub_collections
-            .get(&sub_address, working_set)
-            .unwrap();
+            .get(&sub_address, state)
+            .unwrap().unwrap();
 
         Ok(SubRedditCollectionResponse { 
             subname: c.get_sub_name().to_string(), 
@@ -144,9 +145,9 @@ impl<C: Context> Reddit<C> {
     pub fn get_sub_address(
         &self,
         suname: &str,
-        _working_set: &mut WorkingSet<C>,
-    ) -> RpcResult<SubAddressResponse<C>> {
-        let ca = get_sub_address::<C>(suname);
+        state: &mut ApiStateAccessor<S>,
+    ) -> RpcResult<SubAddressResponse<S>> {
+        let ca = get_sub_address::<S>(suname);
         Ok(SubAddressResponse {
             sub_address: ca,
         })
@@ -158,13 +159,12 @@ impl<C: Context> Reddit<C> {
         #[rpc_method(name = "getPost")]
     pub fn get_post(
         &self,
-        post_address: PostAddress<C>,
-        working_set: &mut WorkingSet<C>,
-    ) -> RpcResult<PostCollectionResponse<C>> {
+        post_address: S::Address,
+        state: &mut ApiStateAccessor<S>,
+    ) -> RpcResult<PostCollectionResponse<S>> {
         let c = self
             .post_collections
-            .get(&post_address, working_set)
-            .unwrap();
+            .get(&post_address, state).unwrap().unwrap();
 
         Ok(PostCollectionResponse { 
             user_address: c.get_user_address().clone(), 

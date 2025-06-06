@@ -30,6 +30,7 @@ sov-rollup-apis = { workspace = true, optional = true }
 
 tracing = { workspace = true }
 example-module = { workspace = true }
+reddit = { workspace = true }
 strum = { workspace = true }
 
 anyhow = { workspace = true }
@@ -64,6 +65,7 @@ native = [
     "sov-capabilities/native",
     "sov-state/native",
     "example-module/native",
+    "reddit/native",
     "sov-rollup-apis",
     "sov-kernels/native",
     "sov-paymaster/native"

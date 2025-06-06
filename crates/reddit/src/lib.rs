@@ -1,77 +1,82 @@
 use std::ops::Sub;
 
-use address::{PostAddress, SubAddress, UserAddress};
+// use address::{PostAddress, SubAddress, UserAddress};
 use call::CallMessage;
 use post::Post;
 use serde::{Deserialize, Serialize};
-use sov_modules_api::{CallResponse, Context, Error, Module, ModuleInfo, StateMap, WorkingSet};
+use sov_modules_api::{Context, Error, GenesisState, Module, ModuleId, ModuleInfo, ModuleRestApi, Spec, StateMap, TxState, WorkingSet};
 use subreddit::SubReddit;
 use user::User;
 
+use crate::event::Event;
+
 pub mod call;
-pub mod query;
 pub mod user;
-pub mod address;
 pub mod utils;
 pub mod subreddit;
 pub mod post;
-pub mod offchain;
-pub mod hooks;
+pub mod event;
+
+#[cfg(feature = "native")]
+pub mod query;
 
 
-#[cfg_attr(feature = "native", derive(sov_modules_api::ModuleCallJsonSchema))]
-#[derive(ModuleInfo, Clone)]
-pub struct Reddit<C: Context> {
-    #[address]
-    pub address: C::Address,
+
+#[derive(Clone, ModuleInfo, ModuleRestApi)]
+pub struct Reddit<S: Spec> {
+    #[id]
+    pub address: ModuleId,
 
 
     // #[state]
     // pub user_address_collections:  StateMap<C::Address , UserAddress<C>>,
 
     #[state]
-    pub user_collections: StateMap<UserAddress<C>, User<C>>,
+    pub user_collections: StateMap<S::Address, User<S>>,
 
     #[state]
-    pub sub_collections: StateMap<SubAddress<C>, SubReddit<C>>,
+    pub sub_collections: StateMap<S::Address, SubReddit<S>>,
 
     #[state]
-    pub post_collections: StateMap<PostAddress<C> , Post<C>>
+    pub post_collections: StateMap<S::Address , Post<S>>
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, Eq, PartialEq)]
 pub struct RedditConfig {}
 
 
-impl<C:Context> Module for Reddit<C> {
-     type Context = C;
+impl<S: Spec> Module for Reddit<S> {
+     type Spec = S;
 
     type Config = RedditConfig;
 
-    type CallMessage = CallMessage<C>;
+    type CallMessage = CallMessage<S>;
+
+    type Event = Event;
 
 
       fn genesis(
-        &self,
+             &mut self,
+        _header: &<S::Da as sov_modules_api::DaSpec>::BlockHeader,
         _config: &Self::Config,
-        _working_set: &mut WorkingSet<C>,
+        _state: &mut impl GenesisState<S>,
     ) -> Result<(), Error> {
         Ok(())
     }
 
 
         fn call(
-        &self,
+       &mut self,
         msg: Self::CallMessage,
-        context: &Self::Context,
-        working_set: &mut WorkingSet<C>,
-    ) -> Result<CallResponse, Error> {
+        context: &Context<Self::Spec>,
+        state: &mut impl TxState<S>,
+    ) -> Result<(), Error> {
         let call_result = match msg {
             CallMessage::CreateUser {
                 username,
-            } => self.create_new_user(&username, context, working_set),
+            } => self.create_new_user(&username.to_string(), context, state),
             CallMessage::CreateSubReddit { user_address , subname , description } => {
-                self.create_new_subreddit(&subname, &description, context , working_set)
+                self.create_new_subreddit(&subname.to_string(), &description.to_string(), context , state)
             }
             CallMessage::CreatePost {
                title,
@@ -79,23 +84,20 @@ impl<C:Context> Module for Reddit<C> {
                content,
                subaddress
             } => self.create_new_post(
-                &title,
-                &flair,
-                &content,
-                SubAddress::new(&subaddress),
+                &title.to_string(),
+                &flair.to_string(),
+                &content.to_string(),
+                subaddress,
                 context,
-                working_set,
+                state,
             ),
         };
-        Ok(call_result?)
+        Ok(())
     }
     
-        fn charge_gas(
-        &self,
-        working_set: &mut WorkingSet<Self::Context>,
-        gas: &<Self::Context as Context>::GasUnit,
-    ) -> anyhow::Result<()> {
-        working_set.charge_gas(gas)
-    }
+        
 
 }
+
+
+

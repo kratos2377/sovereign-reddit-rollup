@@ -19,7 +19,6 @@ sov-rollup-interface = { workspace = true, features = ["arbitrary"] }
 sov-modules-rollup-blueprint = { workspace = true }
 sov-test-utils = { workspace = true, features = ["arbitrary"] }
 sov-risc0-adapter = { workspace = true, optional = true, features = ["arbitrary", "native"] } 
-sov-sp1-adapter = { workspace = true, optional = true, features = ["arbitrary", "native"] }
 
 sov-rollup-starter = { path = "../../crates/rollup/", default-features = false }
 
@@ -27,5 +26,4 @@ sov-rollup-starter = { path = "../../crates/rollup/", default-features = false }
 default = ["mock_da", "risc0"]
 mock_da = ["sov-rollup-starter/mock_da"]
 celestia_da = ["sov-rollup-starter/celestia_da"]
-sp1 = ["sov-sp1-adapter", "sov-rollup-starter/sp1"]
 risc0 = ["sov-risc0-adapter", "sov-rollup-starter/risc0"]

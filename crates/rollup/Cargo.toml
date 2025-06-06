@@ -48,10 +48,8 @@ sha2 = { workspace = true }
 prometheus_exporter = { workspace = true }
 
 risc0-starter = { path = "../provers/risc0", optional = true }
-sp1-starter = { path = "../provers/sp1", optional = true }
 stf-starter = { path = "../stf", features = ["native"] }
 sov-risc0-adapter = { workspace = true, features = ["native"], optional = true }
-sov-sp1-adapter = { workspace = true, features = ["native"], optional = true }
 
 # binary dependencies
 tracing-subscriber = { version = "0.3.17", features = ["env-filter"] }
@@ -77,7 +75,6 @@ sov-universal-wallet = { workspace = true, features = ["serde"] }
 default = ["mock_da", "risc0"]                 # set mock_da as the default features
 mock_da = ["sov-mock-da"]
 celestia_da = ["sov-celestia-adapter"]
-sp1 = ["sov-sp1-adapter", "sp1-starter"]
 risc0 = ["sov-risc0-adapter", "risc0-starter"]
 
 [[bin]]

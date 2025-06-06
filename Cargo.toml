@@ -13,6 +13,7 @@ publish = false
 rust-version = "1.81"
 
 [workspace.dependencies]
+derive_more = { version = "1.0", default-features = false, features = ["std"] }
 sov-accounts = { git = "ssh://git@github.com/Sovereign-Labs/sovereign-sdk-wip.git", rev = "3ff42425499772af024679fd3244b3e2a95b626f" }
 sov-api-spec = { git = "ssh://git@github.com/Sovereign-Labs/sovereign-sdk-wip.git", rev = "3ff42425499772af024679fd3244b3e2a95b626f" }
 sov-attester-incentives = { git = "ssh://git@github.com/Sovereign-Labs/sovereign-sdk-wip.git", rev = "3ff42425499772af024679fd3244b3e2a95b626f" }
@@ -34,7 +35,7 @@ sov-modules-stf-blueprint = { git = "ssh://git@github.com/Sovereign-Labs/soverei
 sov-uniqueness = { git = "ssh://git@github.com/Sovereign-Labs/sovereign-sdk-wip.git", rev = "3ff42425499772af024679fd3244b3e2a95b626f" }
 sov-prover-incentives = { git = "ssh://git@github.com/Sovereign-Labs/sovereign-sdk-wip.git", rev = "3ff42425499772af024679fd3244b3e2a95b626f" }
 sov-risc0-adapter = { git = "ssh://git@github.com/Sovereign-Labs/sovereign-sdk-wip.git", rev = "3ff42425499772af024679fd3244b3e2a95b626f" }
-sov-sp1-adapter = { git = "ssh://git@github.com/Sovereign-Labs/sovereign-sdk-wip.git", rev = "3ff42425499772af024679fd3244b3e2a95b626f" }
+
 sov-rollup-interface = { git = "ssh://git@github.com/Sovereign-Labs/sovereign-sdk-wip.git", rev = "3ff42425499772af024679fd3244b3e2a95b626f" }
 sov-sequencer = { git = "ssh://git@github.com/Sovereign-Labs/sovereign-sdk-wip.git", rev = "3ff42425499772af024679fd3244b3e2a95b626f" }
 sov-sequencer-registry = { git = "ssh://git@github.com/Sovereign-Labs/sovereign-sdk-wip.git", rev = "3ff42425499772af024679fd3244b3e2a95b626f" }
@@ -46,6 +47,7 @@ sov-rollup-apis = { git = "ssh://git@github.com/Sovereign-Labs/sovereign-sdk-wip
 sov-universal-wallet = { git = "ssh://git@github.com/Sovereign-Labs/sovereign-sdk-wip.git", rev = "3ff42425499772af024679fd3244b3e2a95b626f" }
 stf-starter = { path = "./crates/stf" }
 example-module = { path = "./crates/example-module" }
+reddit = {path = "./crates/reddit" }
 strum = { version = "0.26.3", features = ["derive"] }
 
 axum = { version = "0.7.9", default-features = false }
@@ -66,5 +68,4 @@ tokio = { version = "1", features = ["full"] }
 lazy_static = "1.5.0"
 tempfile = "3.5"
 jsonrpsee = { version = "0.24.2", features = ["jsonrpsee-types"] }
-
 risc0-build = "1.2.1"

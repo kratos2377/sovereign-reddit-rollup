@@ -1,43 +1,37 @@
 use std::collections::HashMap;
 use anyhow::{anyhow, bail};
-use sov_modules_api::{Context, StateMap, WorkingSet};
-
-use crate::{address::{SubAddress, UserAddress}, utils::get_sub_address};
-
-
+use sov_modules_api::{Context, Spec, StateMap, TxState, WorkingSet};
+use serde::{Deserialize , Serialize};
+use crate::{utils::get_sub_address};
 
 
-#[cfg_attr(
-    feature = "native",
-    derive(serde::Serialize),
-    derive(serde::Deserialize)
-)]
-#[derive(borsh::BorshDeserialize, borsh::BorshSerialize, Debug, PartialEq, Clone)]
+
+#[derive(borsh::BorshDeserialize, borsh::BorshSerialize,  Deserialize , Serialize, Debug, PartialEq, Clone , Eq)]
 /// Defines an nft collection
-pub struct SubReddit<C: Context> {
-    subaddress: SubAddress<C>,
+pub struct SubReddit<S: Spec> {
+    subaddress: S::Address,
     subname: String,
     description: String,
-    mods: Vec<UserAddress<C>>
+    mods: Vec<S::Address>
 }
 
-impl<C: Context> SubReddit<C> {
+impl<S: Spec> SubReddit<S> {
 
 
  pub fn new(
     subname: &str,
     description: &str,
-    sub_collections: &StateMap<SubAddress<C> , SubReddit<C>>,
-    context: &C,
-    working_set: &mut WorkingSet<C>
- ) -> anyhow::Result<(SubAddress<C> , SubReddit<C>)> {
+    sub_collections: &StateMap<S::Address, SubReddit<S>>,
+    context: &Context<S>,
+        state: &mut impl TxState<S>,
+ ) -> anyhow::Result<(S::Address, SubReddit<S>)> {
 
          let creator = context.sender();
 
-    let sub_address = get_sub_address(subname);
+    let sub_address = get_sub_address::<S>(subname);
 
 
-    let sub_add = sub_collections.get(&sub_address, working_set);
+    let sub_add = sub_collections.get(&sub_address, state)?;
 
     if sub_add.is_some() {
         Err(anyhow!( "Subreddit with subname={} already exists", subname ))
@@ -47,7 +41,7 @@ impl<C: Context> SubReddit<C> {
              subaddress: sub_address.clone(), 
             subname: subname.to_string(), 
             description: description.to_string(), 
-            mods: vec![UserAddress::new(creator)] })
+            mods: vec![creator.clone()] })
 
          )
     }
@@ -69,13 +63,13 @@ impl<C: Context> SubReddit<C> {
 
 
         #[allow(dead_code)]
-    pub fn get_sub_address(&self) -> &SubAddress<C> {
+    pub fn get_sub_address(&self) -> &S::Address{
         &self.subaddress
     }
 
 
            #[allow(dead_code)]
-    pub fn get_mods(&self) -> &Vec<UserAddress<C>> {
+    pub fn get_mods(&self) -> &Vec<S::Address> {
         &self.mods
     }
 

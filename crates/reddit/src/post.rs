@@ -1,20 +1,16 @@
-use sov_modules_api::{Context, WorkingSet};
+use sov_modules_api::{Address, Context, Spec, TxState, WorkingSet};
+use serde::{Deserialize , Serialize};
+use crate::{user::User, utils::get_post_address};
 
-use crate::{address::{PostAddress, SubAddress, UserAddress}, user::User, utils::get_post_address};
 
 
 
-#[cfg_attr(
-    feature = "native",
-    derive(serde::Serialize),
-    derive(serde::Deserialize)
-)]
-#[derive(borsh::BorshDeserialize, borsh::BorshSerialize, Debug, PartialEq, Clone)]
+#[derive(borsh::BorshDeserialize, borsh::BorshSerialize,  Deserialize , Serialize, Debug, PartialEq, Clone , Eq)]
 /// Defines an nft collection
-pub struct Post<C: Context> {
-    post_address: PostAddress<C>,
-    user_address: UserAddress<C>,
-    subaddress: SubAddress<C>,
+pub struct Post<S: Spec> {
+    post_address: S::Address,
+    user_address: S::Address,
+    subaddress: S::Address,
     post_title: String,
     flair: String,
     content: String,
@@ -51,27 +47,27 @@ impl PostStatus {
 
 }
 
-impl<C: Context> Post<C> {
+impl<S: Spec> Post<S> {
     pub fn new(
         title: &str,
         flair: &str,
         content: &str,
-        sub_address: SubAddress<C>,
-    context: &C,
-    working_set: &mut WorkingSet<C>
- ) -> anyhow::Result<(PostAddress<C> , Post<C>)> {
+        sub_address: S::Address,
+    context: &Context<S>,
+        state: &mut impl TxState<S>,
+ ) -> anyhow::Result<(S::Address , Post<S>)> {
 
 
         let creator = context.sender();
 
-    let post_address = get_post_address(creator.as_ref() ,
+    let post_address = get_post_address::<S>(creator.as_ref() ,
      sub_address.as_ref() );
 
     Ok(  
 
         (post_address.clone() , Post {
         post_address,
-        user_address: UserAddress::new(creator),
+        user_address: creator.clone(),
         subaddress: sub_address,
         post_title: title.to_string(),
         flair: flair.to_string(),
@@ -84,18 +80,18 @@ impl<C: Context> Post<C> {
  }
 
  #[allow(dead_code)]
- pub fn get_post_address(&self) -> &PostAddress<C> {
+ pub fn get_post_address(&self) -> &S::Address {
     &self.post_address
  }
 
 
   #[allow(dead_code)]
- pub fn get_user_address(&self) -> &UserAddress<C> {
+ pub fn get_user_address(&self) -> &S::Address {
     &self.user_address
  }
 
   #[allow(dead_code)]
- pub fn get_sub_address(&self) -> &SubAddress<C> {
+ pub fn get_sub_address(&self) -> &S::Address {
     &self.subaddress
  }
  
