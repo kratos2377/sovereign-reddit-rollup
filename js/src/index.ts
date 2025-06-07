@@ -42,14 +42,9 @@ let signer_address = "sov10d6chuh8vu86ltmt7qq4ec8lt25qyvr0cl3lg4mzs5llcfnx69m";
 // Create a transaction to create a market
 const now = Math.floor(Date.now() / 1000);
 let create_token_transaction: RuntimeCall = {
-  bank: {
-    create_token: {
-      admins: [],
-      token_decimals: 8,
-      supply_cap: 100000000000,
-      token_name: "Example Token",
-      initial_balance: 1000000000,
-      mint_to_address: signer_address,
+  reddit_module: {
+    create_user: {
+      username: "username1232123"
     },
   },
 };

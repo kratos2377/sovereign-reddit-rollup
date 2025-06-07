@@ -7,7 +7,7 @@ use serde::{Deserialize, Serialize};
 use sov_modules_api::{Context, Error, GenesisState, Module, ModuleId, ModuleInfo, ModuleRestApi, Spec, StateMap, TxState, WorkingSet};
 use subreddit::SubReddit;
 use user::User;
-
+use sov_modules_api::EventEmitter;
 use crate::event::Event;
 
 pub mod call;
@@ -71,27 +71,63 @@ impl<S: Spec> Module for Reddit<S> {
         context: &Context<Self::Spec>,
         state: &mut impl TxState<S>,
     ) -> Result<(), Error> {
-        let call_result = match msg {
+      match msg {
             CallMessage::CreateUser {
                 username,
-            } => self.create_new_user(&username.to_string(), context, state),
+            } => {
+                
+               let rsp =  self.create_new_user(&username.to_string(), context, state) ;
+                self.emit_event(state , Event::UserCreatedEvent {
+                    username: username.to_string().clone(),
+                    user_address: rsp.response.user.unwrap().get_user_address().to_string(),
+                });
+
+            
+            },
             CallMessage::CreateSubReddit { user_address , subname , description } => {
-                self.create_new_subreddit(&subname.to_string(), &description.to_string(), context , state)
+               let rsp =  self.create_new_subreddit(&subname.to_string(), &description.to_string(), context , state);
+
+                let sub_rsp = rsp.response.sub_reddit.unwrap();
+
+                     self.emit_event(state , Event::SubRedditCreatedEvent {
+                        subname: sub_rsp.get_sub_name().to_string(),
+                        description: sub_rsp.get_sub_description().to_string(),
+                        subaddress: sub_rsp.get_sub_address().to_string(),
+                                        mods: sub_rsp.get_mods().into_iter()
+                    .map(|addr| addr.to_string())
+                    .collect(),
+                    });
+
+
             }
             CallMessage::CreatePost {
                title,
                flair,
                content,
                subaddress
-            } => self.create_new_post(
+            } => {
+            let rsp =     self.create_new_post(
                 &title.to_string(),
                 &flair.to_string(),
                 &content.to_string(),
                 subaddress,
                 context,
                 state,
-            ),
+            );
+
+            let post_rsp = rsp.response.post.unwrap();
+
+            self.emit_event(state , Event::PostCreatedEvent { 
+                title: post_rsp.get_post_title().to_string(), 
+                content: post_rsp.get_post_content().to_string(), 
+                subaddress: post_rsp.get_sub_address().to_string(), 
+                post_address: post_rsp.get_post_address().to_string() 
+            });
+
+            }
+
         };
+
         Ok(())
     }
     

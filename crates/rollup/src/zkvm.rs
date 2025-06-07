@@ -24,7 +24,7 @@ mod risc0 {
         if cfg!(feature = "celestia_da") {
             elf_path = risc0_starter::ROLLUP_PATH;
         } else if cfg!(feature = "mock_da") {
-            elf_path = risc0_starter::MOCK_DA_PATH;
+            elf_path = risc0_starter::ROLLUP_PATH;
         } else {
             panic!("No DA feature enabled");
         }

@@ -45,24 +45,19 @@
           "1000000000"
         ]
       ],
-      "admins": [
-        "sov1lzkjgdaz08su3yevqu6ceywufl35se9f33kztu5cu2spja5hyyf"
-      ]
+      "admins": ["sov1lzkjgdaz08su3yevqu6ceywufl35se9f33kztu5cu2spja5hyyf"]
     },
     "tokens": []
   },
   "chain_state": {
-    "current_time": {
-      "secs": 0,
-      "nanos": 0
-    },
+    "current_time": 0,
     "operating_mode": "zk",
     "inner_code_commitment": [0, 0, 0, 0, 0, 0, 0, 0],
     "outer_code_commitment": [
       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
       0, 0, 0, 0, 0, 0, 0
     ],
-    "genesis_da_height": 3
+    "genesis_da_height": 0
   },
   "paymaster": {
     "payers": []
@@ -77,11 +72,12 @@
   "sequencer_registry": {
     "seq_rollup_address": "sov1lzkjgdaz08su3yevqu6ceywufl35se9f33kztu5cu2spja5hyyf",
     "seq_da_address": "celestia1a68m2l85zn5xh0l07clk4rfvnezhywc53g8x7s",
-    "seq_bond": "10000000000",
+    "seq_bond": "100000000000",
     "minimum_bond": [5000, 5000],
     "is_preferred_sequencer": true
   },
   "uniqueness": null,
   "blob_storage": null,
-  "example_module": {}
+  "example_module": {},
+  "reddit_module": {}
 }

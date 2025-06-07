@@ -139,6 +139,8 @@ fn print_information_about_logging(current_env_filter: &str, log_dir: &Option<St
 async fn main() {
     let args = Args::parse();
 
+    println!("Args struct is: {:?}" , args);
+
     let guard = init_logging(args.log_dir);
     let prev_hook = std::panic::take_hook();
     std::panic::set_hook(Box::new(move |panic_info| {

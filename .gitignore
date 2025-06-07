@@ -19,3 +19,5 @@ js/src/generated/
 docker/rollup/data
 /target
 /crates/rollup/rollup-starter-data/*
+/docker/influxdb-data/engine/data
+/docker/influxdb-data/engine/wal
