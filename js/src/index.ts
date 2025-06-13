@@ -41,13 +41,39 @@ let signer_address = "sov10d6chuh8vu86ltmt7qq4ec8lt25qyvr0cl3lg4mzs5llcfnx69m";
 
 // Create a transaction to create a market
 const now = Math.floor(Date.now() / 1000);
+// let create_token_transaction: RuntimeCall = {
+//   reddit_module: {
+//     create_user: {
+//       username: "ShadowMonarch"
+//     },
+//   },
+// };
+
+
+//Subreddit create ix
+// let create_token_transaction: RuntimeCall = {
+//   reddit_module: {
+//     create_sub_reddit: {
+//       user_address: "sov10d6chuh8vu86ltmt7qq4ec8lt25qyvr0cl3lg4mzs5llcfnx69m",
+//       subname: "animals",
+//       description: "details about animals"
+//     },
+//   },
+// };
+
+
 let create_token_transaction: RuntimeCall = {
   reddit_module: {
-    create_user: {
-      username: "megumi2131923"
+    create_post: {
+      content: "This is some random panda",
+      flair: "",
+      subaddress: "sov1a6wpxvwqw3zhhhkehx7aple8h7xmrwapmzat7aca392s7f7ua0r",
+      title: "Animal post 1"
     },
   },
 };
+
+
 const wait = (seconds: number) =>
   new Promise((resolve) => setTimeout(resolve, seconds * 1000));
 

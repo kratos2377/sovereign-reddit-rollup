@@ -5,12 +5,10 @@ use sov_modules_api::{digest::Digest, CryptoSpec, Spec};
 
 
 pub fn get_user_address<S: Spec>(
-    name: &str,
     sender: &[u8],
 ) -> S::Address {
     let mut hasher = <S::CryptoSpec as CryptoSpec>::Hasher::new();
     hasher.update(sender);
-    hasher.update(name.as_bytes());
 
     let hash: [u8; 32] = hasher.finalize().into();
 S::Address::from(hash.into())

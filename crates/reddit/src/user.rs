@@ -25,7 +25,7 @@ impl<S: Spec> User<S> {
 
     let creator = context.sender();
 
-    let user_address = get_user_address::<S>(username, creator.as_ref());
+    let user_address = creator.clone();
 
 
     let user_add = user_collections.get(&user_address, state)?;

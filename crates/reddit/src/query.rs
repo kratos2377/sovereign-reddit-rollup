@@ -113,7 +113,7 @@ impl<S: Spec> Reddit<S> {
         username: &str,
         state: &mut ApiStateAccessor<S>,
     ) -> RpcResult<UserAddressResponse<S>> {
-        let ca = get_user_address::<S>(username, user_add.as_ref());
+        let ca = get_user_address::<S>(user_add.as_ref());
         Ok(UserAddressResponse {
             user_address: ca,
         })
