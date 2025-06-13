@@ -44,7 +44,7 @@ const now = Math.floor(Date.now() / 1000);
 let create_token_transaction: RuntimeCall = {
   reddit_module: {
     create_user: {
-      username: "username1232123"
+      username: "megumi2131923"
     },
   },
 };

@@ -17,6 +17,8 @@ pub enum Event {
         title: String,
         content: String,
         subaddress: String,
-        post_address: String
+        post_address: String,
+        flair: String,
+        user_address: String
     }
 }

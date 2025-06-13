@@ -121,7 +121,9 @@ impl<S: Spec> Module for Reddit<S> {
                 title: post_rsp.get_post_title().to_string(), 
                 content: post_rsp.get_post_content().to_string(), 
                 subaddress: post_rsp.get_sub_address().to_string(), 
-                post_address: post_rsp.get_post_address().to_string() 
+                post_address: post_rsp.get_post_address().to_string(),
+                flair: post_rsp.get_post_flair().to_string(),
+                user_address: post_rsp.get_user_address().to_string(), 
             });
 
             }

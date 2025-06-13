@@ -150,6 +150,8 @@ async fn main() {
 
     let metrics_port = args.metrics;
     let address = format!("127.0.0.1:{}", metrics_port);
+
+    println!("PROMETHEUS PORT IS: {:?}" , address);
     prometheus_exporter::start(address.parse().unwrap())
         .expect("Could not start prometheus server");
 
