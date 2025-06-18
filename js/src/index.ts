@@ -1,7 +1,7 @@
 import { createStandardRollup } from "@sovereign-sdk/web3";
 import { type RuntimeCall } from "./types";
 import { BasicSigner } from "./signer";
-
+import * as ed25519 from "@noble/ed25519";
 async function handleNewEvent(event: any): Promise<void> {
   console.log(event);
 }
@@ -35,7 +35,10 @@ let signer = await BasicSigner.fromPrivateKeyBytes(
   chain_hash,
 );
 console.log("Signer initialized.");
-
+console.log(signer)
+console.log("SIGNER PUBLIC KEY HEX")
+let signer_public_key_bytes = await signer.publicKey()
+console.log(ed25519.etc.bytesToHex(signer_public_key_bytes))
 // TODO: Use publicKeyToAddress to convert the public key to an address
 let signer_address = "sov10d6chuh8vu86ltmt7qq4ec8lt25qyvr0cl3lg4mzs5llcfnx69m";
 
@@ -62,16 +65,30 @@ const now = Math.floor(Date.now() / 1000);
 // };
 
 
+// let create_token_transaction: RuntimeCall = {
+//   reddit_module: {
+//     create_post: {
+//       content: "This is some random panda",
+//       flair: "",
+//       subaddress: "sov1a6wpxvwqw3zhhhkehx7aple8h7xmrwapmzat7aca392s7f7ua0r",
+//       title: "Animal post 1"
+//     },
+//   },
+// };
+
 let create_token_transaction: RuntimeCall = {
-  reddit_module: {
-    create_post: {
-      content: "This is some random panda",
-      flair: "",
-      subaddress: "sov1a6wpxvwqw3zhhhkehx7aple8h7xmrwapmzat7aca392s7f7ua0r",
-      title: "Animal post 1"
+  bank: {
+    create_token: {
+      admins: [],
+      token_decimals: 8,
+      supply_cap: 100000000000,
+      token_name: "sov-reddit-token",
+      initial_balance: 1000000000,
+      mint_to_address: signer_address,
     },
   },
 };
+
 
 
 const wait = (seconds: number) =>
@@ -82,7 +99,14 @@ const subscription = rollup.subscribe("events", handleNewEvent); // Subscribe to
 console.log("Subscribed.");
 
 console.log("Sending create token transaction...");
-await rollup.call(create_token_transaction, { signer }); // Send our transaction
+let tx_result = await rollup.call(create_token_transaction, { signer }); // Send our transaction
+
+console.log("TX RESULT IS")
+console.log(ed25519.etc.bytesToHex(tx_result.transaction.versioned_tx.V0.pub_key.pub_key) )
+console.log(ed25519.etc.bytesToHex(tx_result.transaction.versioned_tx.V0.signature.msg_sig) )
+
+console.log(tx_result.response.data.receipt)
+
 console.log("Tx sent.");
 await wait(2); // Wait for a couple seconds to get the events back before exit
 // unsubscribe if needed

@@ -18,7 +18,7 @@
       "address_and_balances": [
         [
           "sov1lzkjgdaz08su3yevqu6ceywufl35se9f33kztu5cu2spja5hyyf",
-          "10000000000000"
+          "10000000000000000"
         ],
         [
           "sov1x3jtvq0zwhj2ucsc4hqugskvralrulxvf53vwtkred93s85ar2a",
@@ -60,7 +60,23 @@
     "genesis_da_height": 0
   },
   "paymaster": {
-    "payers": []
+    "payers": [
+      {
+        "payer_address": "sov1lzkjgdaz08su3yevqu6ceywufl35se9f33kztu5cu2spja5hyyf",
+        "policy": {
+          "default_payee_policy": {
+            "allow": {}
+          },
+          "payees": [],
+          "authorized_updaters": [],
+          "authorized_sequencers": "all"
+        },
+        "sequencers_to_register": [
+          "celestia1a68m2l85zn5xh0l07clk4rfvnezhywc53g8x7s"
+        ]
+      }
+    ]
+
   },
   "prover_incentives": {
     "proving_penalty": [10, 10],
