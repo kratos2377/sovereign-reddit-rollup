@@ -20,7 +20,7 @@ use tracing_appender::non_blocking::WorkerGuard;
 use tracing_subscriber::prelude::*;
 use tracing_subscriber::{fmt, EnvFilter};
 
-use sov_modules_api::Address;
+use sov_modules_api::common::Base58Address;
 
 const LOG_FILE_PREFIX: &str = "rollup.log";
 
@@ -42,7 +42,13 @@ const DA_STR: &str = "mock";
 const DA_STR: &str = "celestia";
 
 fn default_genesis_path() -> PathBuf {
-    PathBuf::from_str(&format!("../../configs/{}/genesis.json", DA_STR))
+//    let GENESIS_PATH =  if DA_STR == "mock" {
+//         "genesis_with_paymaster"
+//     } else {
+//         "genesis"
+//     };
+
+    PathBuf::from_str(&format!("../../configs/{}/genesis_with_paymaster.json", DA_STR))
         .expect("failed to construct default genesis path")
 }
 
@@ -139,8 +145,6 @@ fn print_information_about_logging(current_env_filter: &str, log_dir: &Option<St
 async fn main() {
     let args = Args::parse();
 
-    println!("Args struct is: {:?}" , args);
-
     let guard = init_logging(args.log_dir);
     let prev_hook = std::panic::take_hook();
     std::panic::set_hook(Box::new(move |panic_info| {
@@ -150,8 +154,6 @@ async fn main() {
 
     let metrics_port = args.metrics;
     let address = format!("127.0.0.1:{}", metrics_port);
-
-    println!("PROMETHEUS PORT IS: {:?}" , address);
     prometheus_exporter::start(address.parse().unwrap())
         .expect("Could not start prometheus server");
 
@@ -198,7 +200,7 @@ async fn new_rollup(
 ) -> Result<Rollup<StarterRollup<Native>, Native>, anyhow::Error> {
     tracing::info!(?rollup_config_path, "Starting rollup with config");
 
-    let rollup_config: RollupConfig<Address, DaService> = from_toml_path(&rollup_config_path)
+    let rollup_config: RollupConfig<Base58Address, DaService> = from_toml_path(&rollup_config_path)
         .with_context(|| {
             format!(
                 "Failed to read rollup configuration from {}",

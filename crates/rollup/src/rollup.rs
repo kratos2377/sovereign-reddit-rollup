@@ -24,9 +24,13 @@ use sov_stf_runner::RollupConfig;
 use std::sync::Arc;
 use stf_starter::Runtime;
 use tokio::sync::watch;
-
+use sov_modules_api::common::Base58Address;
+use sov_modules_api::configurable_spec::ConfigurableSpec;
 use crate::da::{new_da_service, new_verifier, DaService, DaSpec};
 use crate::zkvm::{get_outer_vm, InnerZkvm, InnerZkvmHost, OuterZkvm};
+
+type SolanaSpec<Da, InnerZkvm, OuterZkvm, Mode> =
+    ConfigurableSpec<Da, InnerZkvm, OuterZkvm, Base58Address, Mode>;
 
 /// Starter rollup implementation.
 #[derive(Default)]
@@ -36,11 +40,11 @@ pub struct StarterRollup<M> {
 
 /// This is the place where all the rollup components come together, and
 /// they can be easily swapped with alternative implementations as needed.
-impl<M: ExecutionMode> RollupBlueprint<M> for StarterRollup<M>
+impl RollupBlueprint<Native> for StarterRollup<Native>
 where
-    DefaultSpec<DaSpec, InnerZkvm, OuterZkvm, M>: PluggableSpec,
+   SolanaSpec<DaSpec, InnerZkvm, OuterZkvm, Native>: PluggableSpec,
 {
-    type Spec = DefaultSpec<DaSpec, InnerZkvm, OuterZkvm, M>;
+    type Spec = SolanaSpec<DaSpec, InnerZkvm, OuterZkvm, Native>;
     type Runtime = Runtime<Self::Spec>;
 }
 

@@ -1,25 +1,26 @@
 use sov_mock_da::MockDaSpec;
 use sov_mock_zkvm::MockZkvm;
+use sov_modules_api::common::Base58Address;
+use sov_modules_api::configurable_spec::ConfigurableSpec;
 use sov_modules_api::execution_mode::Native;
 use sov_modules_api::macros::config_value;
 use sov_modules_api::schemars::schema_for;
 use sov_modules_api::sov_universal_wallet::schema::Schema;
 use sov_modules_api::transaction::{Transaction, UnsignedTransaction};
-use sov_modules_api::Address;
 use sov_universal_wallet::schema::ChainData;
 use std::fs::File;
 use std::io::{self, Write};
 use stf_starter::Runtime;
 use stf_starter::RuntimeCall;
 
-type S = sov_modules_api::default_spec::DefaultSpec<MockDaSpec, MockZkvm, MockZkvm, Native>;
+type S = ConfigurableSpec<MockDaSpec, MockZkvm, MockZkvm, Base58Address, Native>;
 
 fn store_schema_as_json(filename: &str) -> io::Result<()> {
     let schema = Schema::of_rollup_types_with_chain_data::<
         Transaction<Runtime<S>, S>,
         UnsignedTransaction<Runtime<S>, S>,
         RuntimeCall<S>,
-        Address,
+        Base58Address,
     >(ChainData {
         chain_id: config_value!("CHAIN_ID"),
         chain_name: config_value!("CHAIN_NAME").to_string(),

@@ -4,7 +4,8 @@
 
 use sov_mock_da::{MockDaSpec, MockDaVerifier};
 pub use sov_mock_zkvm::{MockZkGuest, MockZkvm};
-use sov_modules_api::default_spec::DefaultSpec;
+use sov_modules_api::configurable_spec::ConfigurableSpec;
+use sov_modules_api::common::Base58Address;
 use sov_modules_api::execution_mode::Zk;
 use sov_modules_stf_blueprint::StfBlueprint;
 use sov_risc0_adapter::guest::Risc0Guest;
@@ -39,7 +40,7 @@ pub fn main() {
     #[cfg(feature = "bench")]
     let start_cycles = risc0_zkvm_platform::syscall::sys_cycle_count();
 
-    let stf: StfBlueprint<DefaultSpec<MockDaSpec, Risc0, MockZkvm, Zk>, Runtime<_>> =
+    let stf: StfBlueprint<ConfigurableSpec<MockDaSpec, Risc0, MockZkvm, Base58Address, Zk>, Runtime<_>> =
         StfBlueprint::new();
 
     let stf_verifier = StfVerifier::<_, _, _, _, _>::new(stf, MockDaVerifier {});

@@ -1,6 +1,6 @@
 [da]
 # The JWT used to authenticate with the celestia light client. Instructions for generating this token can be found in the README
-celestia_rpc_auth_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJBbGxvdyI6WyJwdWJsaWMiLCJyZWFkIiwid3JpdGUiLCJhZG1pbiJdLCJOb25jZSI6IkdGc0RzbmlYb0tCVGxxUU1IaDU4WmxYL3U0QTNzdlhzRS9aR0RjS20yd2M9IiwiRXhwaXJlc0F0IjoiMDAwMS0wMS0wMVQwMDowMDowMFoifQ.nf9dHbk7tbM5t1dND_3qVK5ArMB32sKASrp1FNNtDqk"
+celestia_rpc_auth_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJBbGxvdyI6WyJwdWJsaWMiLCJyZWFkIiwid3JpdGUiLCJhZG1pbiJdLCJOb25jZSI6Ik1ZOThNYXd6U2RkL1ZGVUhFcVVJOVAxZ0lJUmxRWWdWVE9IRjRsalhyc1k9IiwiRXhwaXJlc0F0IjoiMDAwMS0wMS0wMVQwMDowMDowMFoifQ.KjHPT0aJkkuMQq1vzr0Lfjhz0mp0KIrMPHyuK4Js_KQ"
 # The address of the *trusted* Celestia light client to interact with
 celestia_rpc_address = "http://127.0.0.1:26658"
 # The largest response the rollup will accept from the Celestia node. Defaults to 100 MB
@@ -39,7 +39,7 @@ telegraf_address = "127.0.0.1:8094"
 
 [proof_manager]
 aggregated_proof_block_jump = 10
-prover_address = "sov1lzkjgdaz08su3yevqu6ceywufl35se9f33kztu5cu2spja5hyyf"
+prover_address = "49jyzYKbt2NtNiDqCzbphaa3EKQJZivbLKRv9DJUUfR6"
 max_number_of_transitions_in_db = 100
 max_number_of_transitions_in_memory = 30
 
@@ -47,10 +47,10 @@ max_number_of_transitions_in_memory = 30
 max_batch_size_bytes = 1048576
 max_concurrent_blobs = 128
 max_allowed_blocks_behind = 5
-rollup_address = "sov1lzkjgdaz08su3yevqu6ceywufl35se9f33kztu5cu2spja5hyyf"
+rollup_address = "49jyzYKbt2NtNiDqCzbphaa3EKQJZivbLKRv9DJUUfR6"
 # DA address of this sequencer. Should match address of connected bridge/full node.
 da_address = "celestia1a68m2l85zn5xh0l07clk4rfvnezhywc53g8x7s"
 max_allowed_node_distance_behind = 10
-
+blob_processing_timeout_secs = 60
 [sequencer.preferred]
 disable_state_root_consistency_checks = true

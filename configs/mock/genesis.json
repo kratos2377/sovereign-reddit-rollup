@@ -6,7 +6,7 @@
     "minimum_attester_bond": [1000, 1000],
     "minimum_challenger_bond": [1000, 1000],
     "initial_attesters": [
-      ["sov1lzkjgdaz08su3yevqu6ceywufl35se9f33kztu5cu2spja5hyyf", "200000"]
+      ["49jyzYKbt2NtNiDqCzbphaa3EKQJZivbLKRv9DJUUfR6", "200000"]
     ],
     "rollup_finality_period": 5,
     "maximum_attested_height": 0,
@@ -17,35 +17,35 @@
       "token_name": "sov-token",
       "address_and_balances": [
         [
-          "sov1lzkjgdaz08su3yevqu6ceywufl35se9f33kztu5cu2spja5hyyf",
-          "10000000000000"
+          "49jyzYKbt2NtNiDqCzbphaa3EKQJZivbLKRv9DJUUfR6",
+          "10000000000000000"
         ],
         [
-          "sov1x3jtvq0zwhj2ucsc4hqugskvralrulxvf53vwtkred93s85ar2a",
+          "BEDEkjn8Vj3BE8gdUKso7aXztXumrzQo21bVBR348z4W",
           "1000000000"
         ],
         [
-          "sov10d6chuh8vu86ltmt7qq4ec8lt25qyvr0cl3lg4mzs5llcfnx69m",
+          "B6tdZRAPzfNzGvc11EZcVwzDs1zMW4B19HrXmCNygBCm",
           "1000000000"
         ],
         [
-          "sov1v870parxhssv5wyz634wqlt9yflrrnawlwzjhj8409q4yevcj3s",
+          "2fswPwkTeevQrNgm1BBuDaGZ952fpGAkKUSrcP3P8hHT",
           "1000000000"
         ],
         [
-          "sov1qypqxpq9qcrsszg2pvxq6rs0zqg3yyc5z5tpwxqergd3crhxalf",
+          "2rusfNLz77Buza1d6EsFQgVcz4dDYn2734PshJsA2B76",
           "1000000000"
         ],
         [
-          "sov1nc27sae83wj0prl0en4y9lldk6e7v9qz63k50tus95zpvt0jvak",
+          "F54XLNmmmC3ASxGkYrcHwZ45CjSHBQMn131YxAW6t8n5",
           "1000000000"
         ],
         [
-          "sov16wxfprgt9lhvd097kes7e2v4juz5rn8jrzt7477cp9dwwg0lh5p",
+          "5w8JYGoL3HyCqRMVi13ucnF8PJ214BeB6hGQw1naLRwG",
           "1000000000"
         ]
       ],
-      "admins": ["sov1lzkjgdaz08su3yevqu6ceywufl35se9f33kztu5cu2spja5hyyf"]
+      "admins": ["49jyzYKbt2NtNiDqCzbphaa3EKQJZivbLKRv9DJUUfR6"]
     },
     "tokens": []
   },
@@ -66,11 +66,11 @@
     "proving_penalty": [10, 10],
     "minimum_bond": [1000, 1000],
     "initial_provers": [
-      ["sov1lzkjgdaz08su3yevqu6ceywufl35se9f33kztu5cu2spja5hyyf", "200000"]
+      ["49jyzYKbt2NtNiDqCzbphaa3EKQJZivbLKRv9DJUUfR6", "200000"]
     ]
   },
   "sequencer_registry": {
-    "seq_rollup_address": "sov1lzkjgdaz08su3yevqu6ceywufl35se9f33kztu5cu2spja5hyyf",
+    "seq_rollup_address": "49jyzYKbt2NtNiDqCzbphaa3EKQJZivbLKRv9DJUUfR6",
     "seq_da_address": "0000000000000000000000000000000000000000000000000000000000000000",
     "seq_bond": "100000000000",
     "minimum_bond": [5000, 5000],
@@ -78,5 +78,6 @@
   },
   "uniqueness": null,
   "blob_storage": null,
-  "example_module": {}
+  "example_module": {},
+  "reddit_module": {}
 }
